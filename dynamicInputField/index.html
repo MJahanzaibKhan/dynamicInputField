@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
+        integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+</head>
+
+<body>
+    <div class="form-row" id="inp">
+        <div class="form-group col-sm-3">
+            <label for="GeneralInfo_OwnerIndividualName_0__Name">Client Representative
+                Name</label>
+            <button type="button" class="add close" data-dismiss="modal" aria-label="Close">
+                <span aria-hidden="true">+</span>
+            </button>
+
+            <input class="form-control valid" id="GeneralInfo_OwnerIndividualName_0__Name"
+                name="GeneralInfo.OwnerIndividualName[0].Name" type="text" />
+        </div>
+    </div>
+
+    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"
+        integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo"
+        crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"
+        integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1"
+        crossorigin="anonymous"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"
+        integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM"
+        crossorigin="anonymous"></script>
+    <script type="text/javascript">
+        "use strict";
+        (function () {
+            $(".add").click(createTextBox);
+            function createTextBox(event) {
+                var id = event.target.parentElement.parentElement.parentElement.id;
+                var count = $("#" + id).children().length;
+                var inputId = $("#" + id + " > div:first-child > label").attr("for").replace(0, count);
+                var inputName = $("#" + id + " > div:first-child > input").attr("name").replace(0, count);
+
+                if (count !== 4) {
+                    $(".add").remove();
+                    var html = '<div class="form-group col-sm-3">' +
+                        '<label for="' + inputId + '">&nbsp;</label>' +
+                        (count !== 3 ?
+                            '<button type="button" class="add close">' +
+                            '<span aria-hidden="true">+</span>' +
+                            '</button>' : "")
+                        +
+                        '<button type="button" class="cross close">' +
+                        '<span aria-hidden="true">-</span>' +
+                        '</button>' +
+                        '<input class="form-control valid" id="' + inputId + '" name="' + inputName + '" type="text">' +
+                        '</div>';
+                    $("#" + id).append(html);
+
+                    $(".add").off().click(createTextBox);
+                    $(".cross").off().click(deleteTextBox);
+                }
+            }
+
+            function deleteTextBox(event) {
+                var id = event.target.parentElement.parentElement.parentElement.id;
+                $(event.target.parentElement.parentElement).remove();
+
+                if (!$("#inp > div:last-child > button.add.close > span").length > 0) {
+                    $("#" + id + " > div.form-group.col-sm-3:last-child > label").after(
+                        '<button type="button" class="add close">' +
+                        '<span aria-hidden="true">+</span>' +
+                        '</button>');
+                    $(".add").off().click(createTextBox);
+                }
+            }
+        })();
+    </script>
+</body>
+
+</html>
